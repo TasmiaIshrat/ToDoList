@@ -1,0 +1,28 @@
+.wrap {
+  /* margin: auto; */
+  width: 98%;
+  height: 80vh;
+  padding: 10px;
+  background-color: rgb(255, 255, 255);
+}
+
+.left{
+ background-color: white;
+  height: 100%;
+  width: 30%;
+  float: right;
+  
+}
+
+.right{
+  background-color: brown;
+  height: 100%;
+  width: 70%;
+  
+}
+.Column {
+  float: left;
+  width: 33.33%;
+  height: 100%;
+  
+}
