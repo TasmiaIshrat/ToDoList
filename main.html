@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   
+   <br> <br>
     <div class="wrap" style = " margin: auto; border-width:2px; border-style:solid; padding:7px; font-size:17px; border-radius:7px; border-color:#aaaaaa; box-shadow: 0px 0px 5px 0px rgba(34, 33, 33, 0.75);"> 
         <div class="left" style = "text-align: center;">
             <form>
@@ -21,20 +21,47 @@
         </div>
         
         <div class="right">
-            <div class="Column" style="background-color:rgb(220, 232, 238);">
+            <div class="Column">
                 <h2>Todo</h2>
-                <p>Some text..</p>
-                </div>
-                <div class="Column" style="background-color:rgb(220, 232, 238);">
+                <hr style="width:100%;text-align:left;margin-left:0;border-bottom:5px solid red;">
+            </div>
+
+            <div class="Column">
                 <h2>Done</h2>
-                <p>Some text..</p>
-                </div>
-                <div class="Column" style="background-color:rgb(220, 232, 238);">
+                <hr style="width:100%;text-align:left;margin-left:0;border-bottom:5px solid rgb(0, 255, 64);">
+                
+            </div>
+            
+            <div class="Column">
                 <h2>All</h2>
-                <p>Some text..</p>
-                </div>
+                <hr style="width:100%;text-align:left;margin-left:0;border-bottom:5px solid rgb(95, 81, 219);">
+                
+            </div>
         </div>
-    </div>
+        <br>
+
+        <div class= "below-right">
+            <div class="tiles">
+                <div style="width: 70-30%; display: table;">
+                    <div style="display: table-row">
+                        <div style="width: 600px; display: table-cell; overflow-y: scroll; height:70px;overflow-x: hidden;"> 
+                            <p> here is the big tiles </p>
+                        </div>
+                        <div class="dropdown" style="display: table-cell;display: inline;">  
+                            <button class="dropbtn">Dropdown</button>
+                                <div class="dropdown-content">
+                                    <a href="#">Todo</a>
+                                    <a href="#">Done</a>
+                                    <a href="#">All</a>
+                                </div>
+                        </div>
+                         <input type="submit" value="Add"> <br>
+                         <input type="submit" value="Delete"> 
+                    </div>
+                </div>
+
+            </div>
+         </div>
    
 </body>
 </html>
