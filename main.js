@@ -1,8 +1,6 @@
-var toDoListArray = [];
-
-var doneListArray = [];
-
 var allTodoDoneListArray = [];
+
+var current_tab = 'Todo';
 
 function initializeIfArrayNotInitialized(){
 
@@ -12,16 +10,6 @@ function initializeIfArrayNotInitialized(){
 
     localStorage.setItem('todoTileDiv',firstDivContent.innerHTML);
 
-    }
-
-    if (localStorage.getItem("doneListArray") === null) {
-
-        localStorage["doneListArray"] = JSON.stringify(doneListArray);
-    }
-
-    if (localStorage.getItem("toDoListArray") === null) {
-
-        localStorage["toDoListArray"] = JSON.stringify(toDoListArray);
     }
 
     if (localStorage.getItem("allTodoDoneListArray") === null) {
@@ -40,20 +28,9 @@ window.onload = function WindowLoad(event) {
 
     hrTags[0].style.borderBottomColor = "#00bfff";
 
-    toDoListArray = JSON.parse(localStorage["toDoListArray"]);
-
-    doneListArray = JSON.parse(localStorage["doneListArray"]);
-
     allTodoDoneListArray = JSON.parse(localStorage["allTodoDoneListArray"]);
 
-    toDoListArray.forEach(function (item, index) {
-
-        addTodoTilesInMainDiv(item);
-
-    });
-
-
-
+    PlaceTodoTiles(allTodoDoneListArray,'Todo', 0, 1, 2);
 
 }
 
@@ -93,11 +70,7 @@ function addTodoElement() {
 
         todoObject['status'] = "Todo";
 
-        toDoListArray.push(todoObject);
-
         allTodoDoneListArray.push(todoObject);
-
-        localStorage["toDoListArray"] = JSON.stringify(toDoListArray);
 
         localStorage["allTodoDoneListArray"] = JSON.stringify(allTodoDoneListArray);
 
@@ -135,11 +108,19 @@ function addTodoTilesInMainDiv(todoObjectParam) {
 
     var tileButtons = newTileDiv.getElementsByTagName('button');
 
-    var dropDownButton = tileButtons[0];
+    var dropDownButton = tileButtons[1];
 
-    dropDownButton.innerHTML = todoObjectParam['status'];
+    dropDownButton.innerHTML = todoObjectParam['status']+' <i class="fa fa-caret-down btn3Color"></i>';
 
-    var deleteButtonOfTile = tileButtons[2];
+    var editButtonOfTile = tileButtons[2];
+
+    editButtonOfTile.onclick = function () { editTodoElement(todoObjectParam) };
+
+    var saveEditButton = tileButtons[0];
+
+    saveEditButton.onclick = function () { saveEditedTileContent(todoObjectParam) };
+
+    var deleteButtonOfTile = tileButtons[3];
 
     deleteButtonOfTile.onclick = function () { deleteTodoElement(todoObjectParam['id']) };
 
@@ -161,24 +142,11 @@ function addTodoTilesInMainDiv(todoObjectParam) {
 
 function deleteTodoElement(idParam) {
 
-    toDoListArray = toDoListArray.filter(function (obj) {
-        return obj.id !== idParam;
-    });
-
-    doneListArray = doneListArray.filter(function (obj) {
-        return obj.id !== idParam;
-    });
-
     allTodoDoneListArray = allTodoDoneListArray.filter(function (obj) {
         return obj.id !== idParam;
     });
 
-
-    localStorage["toDoListArray"] = JSON.stringify(toDoListArray);
-
-    localStorage["doneListArray"] = JSON.stringify(doneListArray);
-
-    localStorage["allTodoDoneListArray"] = JSON.stringify(doneListArray);
+    localStorage["allTodoDoneListArray"] = JSON.stringify(allTodoDoneListArray);
 
     var childTile = document.getElementById(idParam);
 
@@ -190,67 +158,94 @@ function deleteTodoElement(idParam) {
 }
 
 
-function UpdateTileStatus(todoObject, status, dropDownButton) {
+function editTodoElement(idParam) {
 
+    var editTileDiv = document.getElementById(idParam['id']);
 
-    if (todoObject['status'] != status) {
+    var ps = editTileDiv.getElementsByTagName('p');
 
-        dropDownButton.innerHTML = status;
+    ps[0].style.display = "none";
 
-        todoObject['status'] = status;
+    var ta = editTileDiv.getElementsByTagName('textarea');
 
-        if (status === "Done") {
+    ta[0].style.display = "block";
 
-            toDoListArray = toDoListArray.filter(function (obj) {
-                return obj.id !== todoObject['id'];
-            });
+    var btn = editTileDiv.getElementsByTagName('button');
 
-            doneListArray.push(todoObject);
+    btn[0].style.display = "block";
 
-            localStorage["doneListArray"] = JSON.stringify(doneListArray);
-
-            localStorage["toDoListArray"] = JSON.stringify(toDoListArray);
-
-            PlaceTodoTiles(toDoListArray, 0, 1, 2);
-
-        }
-        else {
-
-            doneListArray = doneListArray.filter(function (obj) {
-                return obj.id !== todoObject['id'];
-            });
-
-            toDoListArray.push(todoObject);
-
-            localStorage["toDoListArray"] = JSON.stringify(toDoListArray);
-
-            localStorage["doneListArray"] = JSON.stringify(doneListArray);
-
-            PlaceTodoTiles(doneListArray, 1, 0, 2);
-
-
-        }
-
-
-        allTodoDoneListArray = allTodoDoneListArray.filter(function (obj) {
-            return obj.id !== todoObject['id'];
-        });
-
-        allTodoDoneListArray.push(todoObject);
-
-
-
-
-
-    }
+    ta[0].value = ps[0].innerHTML;
 
 
 
 
 }
 
+function saveEditedTileContent(todoObject){
 
-function PlaceTodoTiles(todoTypeObjectArray, activeId, inActiveId1, InActive2) {
+    var editTileDiv = document.getElementById(todoObject['id']);
+
+    var ta = editTileDiv.getElementsByTagName('textarea');
+
+    var btn = editTileDiv.getElementsByTagName('button');
+
+    var indx = allTodoDoneListArray.indexOf(todoObject);
+
+    allTodoDoneListArray[indx]['todoContent'] =  ta[0].value;
+
+    localStorage["allTodoDoneListArray"] = JSON.stringify(allTodoDoneListArray);
+
+    ta[0].style.display = "block";
+
+    btn[0].style.display = "block";
+
+    PlaceTodoTiles(allTodoDoneListArray,current_tab, 0, 1, 2);
+
+}
+
+
+function UpdateTileStatus(todoObject, status, dropDownButton) {
+
+    if (todoObject['status'] != status) {
+
+        var indx = allTodoDoneListArray.indexOf(todoObject);
+
+        if(indx>=0){
+
+        if (status === "Done") {
+
+            allTodoDoneListArray[indx]['status'] = "Done";
+
+            localStorage["allTodoDoneListArray"] = JSON.stringify(allTodoDoneListArray);
+
+            PlaceTodoTiles(allTodoDoneListArray,current_tab, 0, 1, 2);
+
+        }
+
+        else{
+
+            allTodoDoneListArray[indx]['status'] = "Todo";
+
+            localStorage["allTodoDoneListArray"] = JSON.stringify(allTodoDoneListArray);
+
+            PlaceTodoTiles(allTodoDoneListArray,current_tab, 1, 0, 2);
+
+
+        }
+
+    }
+
+
+
+    }
+
+
+}
+
+
+function PlaceTodoTiles(todoTypeObjectArray,status, activeId, inActiveId1, InActive2) {
+
+    current_tab = status;
 
     document.getElementById("belowRight").innerHTML = "";
 
@@ -266,7 +261,19 @@ function PlaceTodoTiles(todoTypeObjectArray, activeId, inActiveId1, InActive2) {
 
     todoTypeObjectArray.forEach(function (item, index) {
 
-        addTodoTilesInMainDiv(item);
+
+        if(item['status'] === status){
+
+            addTodoTilesInMainDiv(item);
+        }
+
+        if(status === 'All'){
+
+            addTodoTilesInMainDiv(item);
+
+        }
+
+       
 
     });
 

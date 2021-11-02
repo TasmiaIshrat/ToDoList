@@ -6,45 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDoList</title>
     <link rel="stylesheet" href="style.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
 </head>
 <body>
    <br> <br>
     <div class="wrap" style = " margin: auto; border-width:2px; border-style:solid; padding:7px; font-size:17px; border-radius:7px; border-color:#aaaaaa; box-shadow: 0px 0px 5px 0px rgba(34, 33, 33, 0.75);"> 
+        
         <div class="left" style = "text-align: center;">
-            <!-- <form> -->
+            
                 <label for="fname">Input:</label>
                 <textarea id="todoInput" name="w3review" rows="10" cols="40"></textarea>
-                <!-- <input onclick="addTodoElement()"  value="Add"> -->
 
-                <button onclick="addTodoElement()" class="button">Add</button>
+                <button class="btn5Color" onclick="addTodoElement()" class="button">Insert <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
 
-                <button onclick="addTodoElement()" class="button">Edit</button>
+             
 
         
 
-                <!-- <input type="submit" value="Edit">
-                <input type="submit" value="Delete"> -->
-                <!-- </form> -->
         </div>
         
         <div id="menuHeader" class="right">
 
-            <div onclick="PlaceTodoTiles(toDoListArray,0,1,2)"  class="Column">
+            <div onclick="PlaceTodoTiles(allTodoDoneListArray,'Todo',0,1,2)"  class="Column">
                 <h2 >Todo</h2>
                 <hr id="todoLine" style="width:100%;text-align:left;margin-left:0;border-bottom:5px solid whitesmoke;">
             </div>
 
-            <div onclick="PlaceTodoTiles(doneListArray,1,0,2)" class="Column">
+            <div onclick="PlaceTodoTiles(allTodoDoneListArray,'Done',1,0,2)" class="Column">
                 <h2>Done</h2>
                 <hr id="doneLine" style="width:100%;text-align:left;margin-left:0;border-bottom:5px solid whitesmoke;">
-                
             </div>
             
-            <div onclick="PlaceTodoTiles(allTodoDoneListArray,2,0,1)"  class="Column">
+            <div onclick="PlaceTodoTiles(allTodoDoneListArray,'All',2,0,1)"  class="Column">
                 <h2>All</h2>
                 <hr id="allLine" style="width:100%;text-align:left;margin-left:0;border-bottom:5px solid whitesmoke;">
-                
             </div>
         </div>
         <br>
@@ -55,17 +50,19 @@
 
             <div class="tiles">
 
-                <div style="width: 70-30%; display: table;">
+                <div class="belowTile">
 
-                    <div style="display: table-row">
+                    <div class="tableRow">
 
-                        <div style="width: 600px; display: table-cell; overflow-y: scroll; height:70px;overflow-x: hidden;"> 
-                            <p> here is the big tiles </p>
-                            <p style="float:left;margin-left: 5px;"></p>
-                            <p style="float:right;margin-right: 5px;"></p>
+                        <div class="insideTile"> 
+                            <textarea class="editTextArea" rows="10" cols="70"></textarea>
+                            <button class="btnDr btn4Color">Save</button>
+                            <p class="tileContent"> here is the big tiles </p>
+                            <p class="dateP"></p>
+                            <p class="timeP"></p>
                         </div>
-                        <div class="dropdown" style="display: table-cell;display: inline;">  
-                            <button class="dropbtn">Dropdown</button>
+                        <div class="dropdown">  
+                            <button class="btnDr btn3Color">Dropdown <i class="fa fa-caret-down btn3Color"></i></button>
                                 <div class="dropdown-content">
                                     <a href="#">Todo</a>
                                     <a href="#">Done</a>
@@ -74,9 +71,10 @@
                         </div>
                    
 
-                         <button  class="button">Add</button>
 
-                         <button  class="button">Delete</button>
+                         <button class="btn"><i class="fa fa-pencil btn1Color"></i></button>
+
+                         <button class="btn "><i class="fa fa-trash btn2Color"></i></button>
                     </div>
                 </div>
 
